@@ -1,6 +1,7 @@
 # 게임 - 쿼리도 게임
 
 쿼리도 게임 룰 -> https://terms.naver.com/entry.naver?docId=5707221&cid=63156&categoryId=63156
+
 -> 쉽게 표현하자면 주어진 벽으로 상대의 길을 막으며 상대의 진영에 먼저 도달하면 승리하는 게임
 
 
