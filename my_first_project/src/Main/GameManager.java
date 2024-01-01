@@ -5,30 +5,30 @@ import java.util.Random;
 
 public class GameManager {
 
-	ArrayList<player> p_list = null;
-	ArrayList<String> chat = new ArrayList<>();
+	private ArrayList<player> p_list = null;
+	private ArrayList<String> chat = new ArrayList<>();
+	
 	private int size = 16;
-	private int p1 = 0;
-	private int p2 = 1;
-	private int WALL = 9;
+	private final int p1 = 0;
+	private final int p2 = 1;
+	private final int WALL = 9;
 	private int turn; // 0 -> 1턴 // 1 -> 2턴
 	
 	private int p1_x; // p1의 현위치 x 좌표
 	private int p1_y; // p1의 현위치 y좌표
 	
 	private int b1_x; // p1의 현위치 x 좌표 복사 (움직일때 사용하기 위함)
-	private int b1_y; // ''        y  ''        '' 
+	private int b1_y; // p1의 현위치 y 좌표 복사 (움직일때 사용하기 위함)
 	
 	private int p2_x; // p2의 현위치 x좌표
 	private int p2_y; // p2의 현위치 y좌표
 	
 	private int b2_x; // p2의 현위치 x 좌표 복사 (움직일때 사용하기 위함)
-	private int b2_y; //  ''   ' ' y ''   ''    '' 
+	private int b2_y; // p2의 현위치 y 좌표 복사 (움직일때 사용하기 위함)
 	
-	int[][] map = new int[size][size];
+	private int[][] map = new int[size][size];
 	
-	
-	Random rd = new Random();
+	private Random rd = new Random();
 	
 	private void init() {
 		
@@ -69,6 +69,17 @@ public class GameManager {
 			System.out.println();
 		}
 		System.out.println("===================================================");
+		System.out.println("--------------채팅창---------------");
+		if(chat.size() == 0) {
+			System.out.println("현재 채팅창이 비었습니다");
+		}
+		for(String s : chat) {
+			System.out.println(s);
+		}
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println("----------------------------------");
 	}
 	
 	public void run() {
@@ -83,22 +94,17 @@ public class GameManager {
 	
 	private boolean gamePlay() {
 		while(true) {
-//			System.out.println("turn = " + turn);
 			b1_y = p1_y;
 			b1_x = p1_x;
-//			System.out.println("p1_y = " + p1_y +"   "+ "p1_x = " + p1_x);
-//			System.out.println("b1_y = " + b1_y +"   "+ "b1_x = " + b1_x);
+			
 			b2_y = p2_y;
 			b2_x = p2_x;
-//			System.out.println("p2_y = " + p2_y +"   "+ "p2_x = " + p2_x);
-//			System.out.println("b2_y = " + b2_y +"   "+ "b2_x = " + b2_x);
 			if(b1_y == 19 || b2_y == 0) {
 				turn = turn == 0? 1 : 0;
 				System.out.println("게임 종료");
 				System.out.printf("%s [%s] 플레이어 승리 !  %n" , p_list.get(turn).name, p_list.get(turn).mark);
 				return true;
 			}
-//			System.out.println("===================================================");
 			System.out.printf("%s턴 [ %s ]\n[1] 이동 [2] 벽 사용 [3] 채팅하기 %n", p_list.get(turn).name , p_list.get(turn).mark);
 			int sel = util.getValue(1, 3);
 			if(sel == 1) { // 이동
@@ -111,15 +117,11 @@ public class GameManager {
 				}
 			} else {
 				//채팅
-				System.out.println("--------------채팅창---------------");
+				System.out.println("----------------------------------");
 				System.out.print("채팅 : ");
 				String input = util.getValue("");
 				chat.add(p_list.get(turn).name+": "+input);
-				for(String s : chat) {
-					System.out.println(s);
-				}
-				
-				System.out.println("---------------------------------");
+				System.out.println("----------------------------------");
 				continue;
 			}
 			break;
