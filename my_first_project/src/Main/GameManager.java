@@ -12,6 +12,7 @@ public class GameManager {
 	private final int p1 = 0;
 	private final int p2 = 1;
 	private final int WALL = 9;
+	private final int wall_length = 3; // 벽의 길이 설정
 	private int turn; // 0 -> 1턴 // 1 -> 2턴
 	
 	private int p1_x; // p1의 현위치 x 좌표
@@ -69,6 +70,10 @@ public class GameManager {
 			System.out.println();
 		}
 		System.out.println("===================================================");
+		print_chat();
+	}
+	
+	private void print_chat() {
 		System.out.println("--------------채팅창---------------");
 		if(chat.size() == 0) {
 			System.out.println("현재 채팅창이 비었습니다");
@@ -81,6 +86,7 @@ public class GameManager {
 		System.out.println();
 		System.out.println("----------------------------------");
 	}
+	
 	
 	public void run() {
 		init();
@@ -117,17 +123,22 @@ public class GameManager {
 				}
 			} else {
 				//채팅
-				System.out.println("----------------------------------");
-				System.out.print("채팅 : ");
-				String input = util.getValue("");
-				chat.add(p_list.get(turn).name+": "+input);
-				System.out.println("----------------------------------");
+				chatting();
 				continue;
 			}
 			break;
 		} // while
 		turn = turn == 0 ? 1 : 0;
 		return false;
+	}
+	
+	// 채팅
+	private void chatting() {
+		System.out.println("----------------------------------");
+		System.out.print("채팅 : ");
+		String input = util.getValue("");
+		chat.add(p_list.get(turn).name+": "+input);
+		System.out.println("----------------------------------");
 	}
 	
 	
@@ -170,30 +181,30 @@ public class GameManager {
 	
 	// 벽 놓을 수 있는지
 	private boolean isValidGaroWall(int x , int y) {
-		if((x > size-3 || y > size-1)) {
+		if((x > size-wall_length || y > size-1)) {
 			return false;
 		}
-		for(int i = x; i <x+3; i+=1) {
+		for(int i = x; i <x+wall_length; i+=1) {
 			if(map[y][i] == p1 || map[y][i] == p2 || map[y][i] == WALL) {
 				return false;
 			}
 		}
-		for(int i = x; i <x+3; i+=1) {
+		for(int i = x; i <x+wall_length; i+=1) {
 			map[y][i] = WALL;
 		}
 		return true;
 	}
 	
 	private boolean isValidSeroWall(int x, int y) {
-		if((x > size-1 || y > size-3)) {
+		if((x > size-1 || y > size-wall_length)) {
 			return false;
 		}
-		for(int i = y; i <y+3; i+=1) {
+		for(int i = y; i <y+wall_length; i+=1) {
 			if(map[i][x] == p1 || map[i][x] == p2 || map[i][x] == WALL) {
 				return false;
 			}
 		}
-		for(int i = y; i <y+3; i+=1) {
+		for(int i = y; i <y+wall_length; i+=1) {
 			map[i][x] = WALL;
 		}
 		return true;
@@ -265,7 +276,7 @@ public class GameManager {
 	
 	// 막혀있는지 체크
 	private boolean isValidMove() {
-		if((b1_x < 0 || b1_x > 19) || (b2_x < 0 || b2_x > 19) || (b1_y < 0 || b2_y > 19) ||(map[b1_y][b1_x] == 9) || map[b2_y][b2_x] == 9) {
+		if((b1_x < 0 || b1_x > size-1) || (b2_x < 0 || b2_x > size-1) || (b1_y < 0 || b2_y > size-1) ||(map[b1_y][b1_x] == WALL || map[b2_y][b2_x] == WALL)) {
 			System.out.println("===================================================");
 			System.out.println("막혀있습니다.");
 			System.out.println("다시 선택해주세요");
