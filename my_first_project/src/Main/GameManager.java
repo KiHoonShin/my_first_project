@@ -254,6 +254,9 @@ public class GameManager {
 			} else if(map[p1_y][b1_x] == p2) {
 				b1_x += 1;
 			} // -> 만났을때 건너 뛰기 
+			if(!isValidMove()) {
+				return false;
+			}
 			map[b1_y][b1_x] = p1;
 			b1_x = 0;
 			b1_y = 0;
@@ -264,11 +267,16 @@ public class GameManager {
 			} else if(map[p2_y][b2_x] == p1) {
 				b2_x += 1;
 			} // -> 만났을때 건너 뛰기 
+			if(!isValidMove()) {
+				return false;
+			}
 			map[b2_y][b2_x] = p2;
 			b2_x = 0;
 			b2_y = 0;
 		}
-		
+		if(!isValidMove()) {
+			return false;
+		}
 		
 		return true;
 	}
